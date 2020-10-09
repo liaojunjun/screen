@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>获取屏幕/浏览器的基本信息</title>
+    <style>
+      body {
+        font-size: 16px;
+        line-height: 30px;
+      }
+      body span:nth-child(1) {
+        background-color: aqua;
+      }
+      table {
+        margin-bottom: 50px;
+        border-spacing: 0;
+        box-shadow: 0px 0px 20px #aaa;
+      }
+      table td {
+        padding: 5px 10px;
+        border-bottom: 1px solid #ccc;
+      }
+      tr td:nth-child(3) {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const _window_arr = [];
+      const _window = {
+        name: "浏览器窗口的名字",
+        devicePixelRatio: "一个CSS像素由多少个物理像素组成",
+        screenX: "浏览器窗口左上角相对于当前屏幕左上角的水平距离",
+        screenY: "浏览器窗口左上角相对于当前屏幕左上角的垂直距离",
+        innerHeight: "视口的高度",
+        innerWidth: "视口的高度",
+        outerHeight: "浏览器窗口的高度",
+        outerWidth: "浏览器窗口的宽度",
+        scrollX: "页面的水平滚动距离",
+        scrollY: "页面的垂直滚动距离",
+        isSecureContext: "当前窗口是否处在加密环境",
+        cookie: "当前网页的 Cookie",
+      };
+      const _screen_arr = [];
+      const _screen = {
+        availHeight: "浏览器窗口可用的屏幕高度",
+        availWidth: "浏览器窗口可用的屏幕宽度",
+        colorDepth: "屏幕的颜色深度",
+        pixelDepth: "屏幕的色彩位数",
+        height: "屏幕分辨率的高度",
+        width: "屏幕分辨率的宽度",
+      };
+      const _navigator_arr = [];
+      const _navigator = {
+        cookieEnabled: "浏览器的 Cookie 功能是否打开",
+        onLine: "用户当前是否在线",
+        offline: "用户当前是否离线",
+        platform: "用户的操作系统信息",
+        userAgent: "浏览器的 User Agent 字符串",
+      };
+      const _location_arr = [];
+      const _location = {
+        href: "整个 URL",
+        protocol: "当前 URL 的协议",
+        host: "主机",
+        hostname: "主机名，不包括端口",
+        port: "端口号",
+        pathname: "URL 的路径部分，从根路径/开始",
+        search: "查询字符串部分，从问号?开始",
+        hash: "片段字符串部分，从#开始",
+        username: "域名前面的用户名",
+        password: "域名前面的密码",
+        origin: "URL 的协议、主机名和端口",
+      };
+      for (const prop in _window) {
+        _window_arr.push([prop, _window[prop], window[prop]]);
+      }
+      for (const prop in _screen) {
+        _screen_arr.push([prop, _screen[prop], screen[prop]]);
+      }
+      for (const prop in _navigator) {
+        _navigator_arr.push([prop, _navigator[prop], navigator[prop]]);
+      }
+      for (const prop in _location) {
+        _location_arr.push([prop, _location[prop], location[prop]]);
+      }
+
+      const app = document.getElementById("app");
+      function renderTd([key, text, value]) {
+        return `<td>${key}</td><td>${text}</td><td>${value}</td>`;
+      }
+      function renderTable(arr) {
+        const trs = arr.reduce(
+          (acc, item) => (acc += `<tr>${renderTd(item)}</tr>`),
+          ""
+        );
+        return `<table>${trs}</table>`;
+      }
+      const showArr = [_window_arr, _screen_arr, _navigator_arr, _location_arr];
+      app.innerHTML = showArr.reduce(
+        (acc, arr) => (acc += renderTable(arr)),
+        ""
+      );
+    </script>
+  </body>
+</html>
